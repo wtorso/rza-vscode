@@ -1,8 +1,8 @@
 {
-  "name": "rez3a",
+  "name": "rza",
   "displayName": "REZ3-ASM Language Support",
-  "description": "Syntax highlighting and diagnostics for REZ3-ASM (.rz3a) via the rez3asm transpiler",
-  "version": "0.1.0",
+  "description": "Syntax highlighting and diagnostics for REZ3-ASM (.rza) via the rez3asm transpiler",
+  "version": "0.2.0",
   "publisher": "rez3",
   "engines": {
     "vscode": "^1.75.0"
@@ -12,28 +12,28 @@
     "Linters"
   ],
   "activationEvents": [
-    "onLanguage:rez3a"
+    "onLanguage:rza"
   ],
   "main": "./client.js",
   "contributes": {
     "languages": [
       {
-        "id": "rez3a",
+        "id": "rza",
         "extensions": [
-          ".rz3a"
+          ".rza"
         ],
         "aliases": [
           "REZ3-ASM",
-          "rez3a"
+          "rza"
         ],
         "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
       {
-        "language": "rez3a",
-        "scopeName": "source.rz3a",
-        "path": "./syntaxes/rz3a.tmLanguage.json"
+        "language": "rza",
+        "scopeName": "source.rza",
+        "path": "./syntaxes/rza.tmLanguage.json"
       }
     ],
     "configuration": {
@@ -42,7 +42,7 @@
         "rez3.transpilerPath": {
           "type": "string",
           "default": "",
-          "description": "Путь к rez3asm (rez3asm.exe или rez3asm.py для режима разработки). Пусто = <extensionRoot>/../../rez3asm.exe"
+          "description": "Путь к rez3asm (rez3asm.exe). Пусто = <extensionRoot>/../../rez3asm.exe"
         }
       }
     }

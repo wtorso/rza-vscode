@@ -1,7 +1,7 @@
 # REZ3-ASM — расширение для VS Code
 
 Подсветка синтаксиса и диагностика (I1–I4, DECAY, DUP, STRUCT, SCOPE)
-для файлов `.rz3a`. Диагностика выполняется транспайлером `rez3asm`
+для файлов `.rza`. Диагностика выполняется транспайлером `rez3asm`
 через LSP-сервер `rez3-asm/lsp/rez3-lsp.js`.
 
 ## Структура
@@ -11,7 +11,7 @@ editors/vscode/
   package.json                    — манифест расширения
   client.js                       — точка входа (vscode-languageclient)
   language-configuration.json     — комментарий ";", скобки
-  syntaxes/rz3a.tmLanguage.json   — TextMate-грамматика
+  syntaxes/rza.tmLanguage.json   — TextMate-грамматика
 ../../lsp/rez3-lsp.js             — LSP-сервер (Node.js, без зависимостей)
 ```
 
@@ -47,13 +47,13 @@ cd editors/vscode
 npx @vscode/vsce package
 ```
 
-Получится `rez3a-0.1.0.vsix`. Установка: `Ctrl+Shift+P` →
+Получится `rza-0.2.0.vsix`. Установка: `Ctrl+Shift+P` →
 «Extensions: Install from VSIX…», либо
-`code --install-extension rez3a-0.1.0.vsix`.
+`code --install-extension rza-0.2.0.vsix`.
 
 **Внимание:** LSP-сервер лежит в `../../lsp/` относительно расширения
 и в .vsix не входит. После установки .vsix расширение попадает в
-`%USERPROFILE%\.vscode\extensions\rez3.rez3a-0.1.0\`, поэтому сервер
+`%USERPROFILE%\.vscode\extensions\rez3.rza-0.2.0\`, поэтому сервер
 должен лежать в `%USERPROFILE%\.vscode\lsp\rez3-lsp.js`:
 
 ```sh
@@ -64,7 +64,7 @@ cp rez3-asm/lsp/rez3-lsp.js "$USERPROFILE/.vscode/lsp/"
 ### Вариант B: копирование папки (рекомендуется при разработке)
 
 Скопируйте папку `editors/vscode` в
-`%USERPROFILE%\.vscode\extensions\rez3a-0.1.0` (после `npm install`),
+`%USERPROFILE%\.vscode\extensions\rza-0.2.0` (после `npm install`),
 затем скопируйте `rez3-asm/lsp/` в `%USERPROFILE%\.vscode\lsp` —
 клиент ищет сервер как `../../lsp/rez3-lsp.js` относительно папки
 расширения, т.е. `%USERPROFILE%\.vscode\lsp\rez3-lsp.js`.
