@@ -21,7 +21,7 @@ function activate(context) {
   };
 
   const clientOptions = {
-    documentSelector: [{ scheme: "file", language: "rez3a" }],
+    documentSelector: [{ scheme: "file", language: "rza" }],
     initializationOptions: {
       extensionRoot: context.extensionPath,
       transpilerPath:
@@ -33,7 +33,7 @@ function activate(context) {
   };
 
   client = new LanguageClient(
-    "rez3a",
+    "rza",
     "REZ3-ASM Language Server",
     serverOptions,
     clientOptions
