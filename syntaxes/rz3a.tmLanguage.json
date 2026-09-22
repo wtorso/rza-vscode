@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "REZ3-ASM",
+  "scopeName": "source.rz3a",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#labels" },
+    { "include": "#ownership" },
+    { "include": "#alu" },
+    { "include": "#flow" },
+    { "include": "#registers" },
+    { "include": "#mediators" },
+    { "include": "#field" },
+    { "include": "#numbers" }
+  ],
+  "repository": {
+    "comments": {
+      "name": "comment.line.semicolon.rz3a",
+      "match": ";.*$"
+    },
+    "labels": {
+      "name": "entity.name.label.rz3a",
+      "match": "^\\s*([a-z_][a-z0-9_]*):"
+    },
+    "ownership": {
+      "name": "keyword.control.ownership.rz3a",
+      "match": "\\b(cav|res|med|casc|acasc|endc|raise|decay|probe|load|store)\\b"
+    },
+    "alu": {
+      "name": "keyword.other.alu.rz3a",
+      "match": "\\b(mov|add|sub|mul|div|mod|and|or|xor|shl|shr|inc|dec|print)\\b"
+    },
+    "flow": {
+      "name": "keyword.control.flow.rz3a",
+      "match": "\\b(jmp|brz|brnz|call|ret|proc)\\b"
+    },
+    "registers": {
+      "name": "variable.parameter.register.rz3a",
+      "match": "%r(1[0-5]|[0-9])\\b"
+    },
+    "mediators": {
+      "name": "variable.other.mediator.rz3a",
+      "match": "\\b[a-z_][a-z0-9_]*_m\\b"
+    },
+    "field": {
+      "name": "constant.language.field.rz3a",
+      "match": "\\bfield\\b"
+    },
+    "numbers": {
+      "name": "constant.numeric.integer.rz3a",
+      "match": "(?<![\\w%])-?[0-9]+\\b"
+    }
+  }
+}

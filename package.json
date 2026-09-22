@@ -1,0 +1,53 @@
+{
+  "name": "rez3a",
+  "displayName": "REZ3-ASM Language Support",
+  "description": "Syntax highlighting and diagnostics for REZ3-ASM (.rz3a) via the rez3asm transpiler",
+  "version": "0.1.0",
+  "publisher": "rez3",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onLanguage:rez3a"
+  ],
+  "main": "./client.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "rez3a",
+        "extensions": [
+          ".rz3a"
+        ],
+        "aliases": [
+          "REZ3-ASM",
+          "rez3a"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rez3a",
+        "scopeName": "source.rz3a",
+        "path": "./syntaxes/rz3a.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "REZ3-ASM",
+      "properties": {
+        "rez3.transpilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Путь к rez3asm (rez3asm.exe или rez3asm.py для режима разработки). Пусто = <extensionRoot>/../../rez3asm.exe"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  }
+}
