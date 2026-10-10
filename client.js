@@ -8,7 +8,7 @@ let client;
 
 function activate(context) {
   const serverModule = context.asAbsolutePath(
-    path.join("..", "..", "lsp", "rez3-lsp.js")
+    path.join("server", "rez3-lsp.js")
   );
 
   const serverOptions = {
