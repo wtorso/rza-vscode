@@ -2,7 +2,7 @@
   "name": "rza",
   "displayName": "REZ3-ASM Language Support",
   "description": "Syntax highlighting and diagnostics for REZ3-ASM (.rza) via the rez3asm transpiler",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "rez3",
   "engines": {
     "vscode": "^1.75.0"
@@ -42,7 +42,7 @@
         "rez3.transpilerPath": {
           "type": "string",
           "default": "",
-          "description": "Путь к rez3asm (rez3asm.exe). Пусто = <extensionRoot>/../../rez3asm.exe"
+          "description": "\u041f\u0443\u0442\u044c \u043a rez3asm (rez3asm.exe). \u041f\u0443\u0441\u0442\u043e = <extensionRoot>/../../rez3asm.exe"
         }
       }
     }
