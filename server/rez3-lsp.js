@@ -14,8 +14,6 @@
  *   3. <extensionRoot>/../../rez3asm.exe (extensionRoot из
  *      initializationOptions.extensionRoot) либо ../rez3asm.exe
  *      относительно этого файла.
- * Если transpilerPath заканчивается на ".py", запускается как
- * `python <path> <file>` (режим разработки без собранного .exe).
  * Дополнительные аргументы: initializationOptions.transpilerArgs (array).
  *
  * Логи и ошибки сервера — только в stderr; stdout строго под протокол.
@@ -120,12 +118,7 @@ function defaultTranspilerPath() {
 function resolveTranspilerCommand() {
   const tp = config.transpilerPath || defaultTranspilerPath();
   const args = [...config.transpilerArgs];
-  let cmd = tp;
-  if (/\.py$/i.test(tp) && args.length === 0) {
-    cmd = process.platform === "win32" ? "python" : "python3";
-    args.unshift(tp);
-  }
-  return { cmd, args };
+  return { cmd: tp, args };
 }
 
 function applyInitializationOptions(opts) {
@@ -280,7 +273,7 @@ const handlers = {
       capabilities: {
         textDocumentSync: 1, // Full
       },
-      serverInfo: { name: "rez3-lsp", version: "0.1.0" },
+      serverInfo: { name: "rez3-lsp", version: "0.3.1" },
     });
   },
 

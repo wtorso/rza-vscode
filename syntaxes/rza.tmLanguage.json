@@ -24,7 +24,7 @@
     },
     "ownership": {
       "name": "keyword.control.ownership.rza",
-      "match": "\\b(cav|res|med|casc|acasc|endc|raise|decay|probe|load|store)\\b"
+      "match": "\\b(cav|res|med|casc|acasc|endc|raise|decay|probe|load|loadb|store)\\b"
     },
     "alu": {
       "name": "keyword.other.alu.rza",
