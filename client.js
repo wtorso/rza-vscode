@@ -2,34 +2,29 @@
 
 const path = require("path");
 const vscode = require("vscode");
-const { LanguageClient, TransportKind } = require("vscode-languageclient/node");
+const { LanguageClient } = require("vscode-languageclient/node");
 
 let client;
 
-function activate(context) {
-  const serverModule = context.asAbsolutePath(
-    path.join("server", "rez3-lsp.js")
-  );
+// Путь к транспайлеру: настройка rez3.transpilerPath, иначе
+// <extensionRoot>/../../rez3asm.exe (расширение из дерева проекта).
+function transpilerPath(context) {
+  const configured = vscode.workspace
+    .getConfiguration("rez3")
+    .get("transpilerPath");
+  if (configured) return configured;
+  return context.asAbsolutePath(path.join("..", "..", "rez3asm.exe"));
+}
 
+function activate(context) {
+  // LSP-сервер — внутри транспайлера: rez3asm --lsp (stdio).
   const serverOptions = {
-    run: { module: serverModule, transport: TransportKind.stdio },
-    debug: {
-      module: serverModule,
-      transport: TransportKind.stdio,
-      options: { execArgv: ["--nolazy"] },
-    },
+    command: transpilerPath(context),
+    args: ["--lsp"],
   };
 
   const clientOptions = {
     documentSelector: [{ scheme: "file", language: "rza" }],
-    initializationOptions: {
-      extensionRoot: context.extensionPath,
-      transpilerPath:
-        vscode.workspace.getConfiguration("rez3").get("transpilerPath") || undefined,
-    },
-    synchronize: {
-      configurationSection: "rez3",
-    },
   };
 
   client = new LanguageClient(

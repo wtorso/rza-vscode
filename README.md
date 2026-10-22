@@ -2,20 +2,19 @@
 
 Подсветка синтаксиса и диагностика (I1–I4, DECAY, DUP, STRUCT, SCOPE)
 для файлов `.rza`. Диагностика выполняется транспайлером `rez3asm`
-через LSP-сервер (Node.js, без зависимостей): исходник —
-`rez3-asm/lsp/rez3-lsp.js`, в расширение входит копия `server/rez3-lsp.js`.
+напрямую: LSP-сервер встроен в него (`rez3asm --lsp`, stdio) — Node.js
+и временные файлы больше не нужны, текст документа проверяется чекером
+из памяти.
 
 ## Структура
 
 ```
 editors/vscode/
   package.json                    — манифест расширения
-  client.js                       — точка входа (vscode-languageclient)
-  server/rez3-lsp.js              — LSP-сервер (копия ../../lsp/rez3-lsp.js)
+  client.js                       — точка входа (vscode-languageclient,
+                                    запускает rez3asm.exe --lsp)
   language-configuration.json     — комментарий ";", скобки
   syntaxes/rza.tmLanguage.json   — TextMate-грамматика
-../../lsp/rez3-lsp.js             — исходник сервера (править там,
-                                    затем копировать в server/)
 ```
 
 ## Установка зависимостей
@@ -37,8 +36,11 @@ npm install
 2. По умолчанию: `<папка расширения>/../../rez3asm.exe` — т.е.
    `rez3-asm/rez3asm.exe`, если расширение установлено из дерева проекта.
 
-Транспайлер — `rez3asm.exe` (C3 0.8.4); Python-версии больше нет.
-Собрать: `c3c compile rez3asm.c3 -o rez3asm` в `rez3-asm/`
+Изменение настройки применяется после перезапуска окна VS Code
+(сервер стартует вместе с расширением).
+
+Транспайлер — `rez3asm.exe` (C3 0.8.5); Python-версии нет.
+Собрать: `c3c compile rez3asm.c3 lsp_server.c3 -o rez3asm` в `rez3-asm/`
 (выполняется автоматически шагом 0 в `run_tests.sh`).
 
 ## Установка расширения
@@ -50,28 +52,28 @@ cd editors/vscode
 npx @vscode/vsce package
 ```
 
-Получится `rza-0.3.0.vsix`. Установка: `Ctrl+Shift+P` →
+Получится `rza-0.4.0.vsix`. Установка: `Ctrl+Shift+P` →
 «Extensions: Install from VSIX…», либо
-`code --install-extension rza-0.3.0.vsix`.
+`code --install-extension rza-0.4.0.vsix`.
 
-LSP-сервер входит в расширение (`server/`) и упаковывается в .vsix
-вместе с ним — копировать его отдельно не нужно. Снаружи нужен только
-транспайлер `rez3asm.exe` (см. «Путь к транспайлеру» выше).
+Сервер в .vsix не входит — им является сам транспайлер `rez3asm.exe`
+(см. «Путь к транспайлеру» выше).
 
 ### Вариант B: копирование папки (рекомендуется при разработке)
 
 Скопируйте папку `editors/vscode` в
-`%USERPROFILE%\.vscode\extensions\rza-0.3.0` (после `npm install`) и
-перезапустите VS Code — клиент ищет сервер как `server/rez3-lsp.js`
-внутри папки расширения.
+`%USERPROFILE%\.vscode\extensions\rza-0.4.0` (после `npm install`) и
+перезапустите VS Code — клиент запустит `rez3asm.exe --lsp` по путям
+из раздела «Путь к транспайлеру».
 
 Симлинк папки `editors/vscode` в `.vscode/extensions` тоже работает.
 При установке вне дерева проекта задайте `rez3.transpilerPath` —
-иначе сервер не найдёт `rez3asm.exe` по пути по умолчанию.
+иначе клиент не найдёт `rez3asm.exe` по пути по умолчанию.
 
 ## Возможности
 
-- Диагностика по сохранению и по набору (debounce 300 мс), severity Error,
+- Диагностика по набору (Full sync, синхронная валидация на каждое
+  изменение — транспайл файла <100 мс), severity Error,
   source `rez3asm`, code = правило (I1, I2, I3, I4, DECAY, DUP, STRUCT, SCOPE).
 - Подсветка: комментарии `;`, три группы ключевых слов (владение / ALU /
   поток), регистры `%r0`–`%r15`, метки, числа, `field`, медиаторы `*_m`.
