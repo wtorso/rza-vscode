@@ -31,10 +31,10 @@ npm install
 1. Настройка VS Code `rez3.transpilerPath` (Settings → Extensions →
    REZ3-ASM, либо в `settings.json`):
    ```json
-   { "rez3.transpilerPath": "C:/Users/myski/projects/rzn/rez3-asm/rez3asm.exe" }
+   { "rez3.transpilerPath": "C:/Users/myski/projects/rza/rez3asm.exe" }
    ```
 2. По умолчанию: `<папка расширения>/../../rez3asm.exe` — т.е.
-   `rez3-asm/rez3asm.exe`, если расширение установлено из дерева проекта.
+   `rza/rez3asm.exe`, если расширение установлено из дерева проекта.
 
 Изменение настройки применяется после перезапуска окна VS Code
 (сервер стартует вместе с расширением).
