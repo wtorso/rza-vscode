@@ -40,7 +40,7 @@ npm install
 (сервер стартует вместе с расширением).
 
 Транспайлер — `rez3asm.exe` (C3 0.8.5); Python-версии нет.
-Собрать: `c3c compile rez3asm.c3 lsp_server.c3 -o rez3asm` в `rez3-asm/`
+Собрать: `c3c compile rez3asm.c3 lsp_server.c3 -o rez3asm` в `rza/`
 (выполняется автоматически шагом 0 в `run_tests.sh`).
 
 ## Установка расширения
