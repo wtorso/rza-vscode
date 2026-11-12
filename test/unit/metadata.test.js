@@ -51,12 +51,14 @@ test("production and test JavaScript contain no comments", () => {
 
 test("public documentation is self-contained and platform-neutral", () => {
     const privateRepository = /https:\/\/github\.com\/wtorso\/rza(?![-\w])/;
-    const platformPath = /\.exe\b|\b[A-Za-z]:\//;
+    const platformPath = /\.exe\b|\b[A-Za-z]:[\\/]/;
     for (const file of ["README.md", "README.ru.md"]) {
         const text = fs.readFileSync(path.join(root, file), "utf8");
         assert.doesNotMatch(text, privateRepository, file);
         assert.doesNotMatch(text, platformPath, file);
     }
+    assert.match("C:/Projects/rza", platformPath);
+    assert.match(String.raw`C:\Projects\rza`, platformPath);
     const setting = manifest.contributes.configuration.properties["rez3.transpilerPath"];
     assert.doesNotMatch(setting.description, /\.exe\b/);
 });
