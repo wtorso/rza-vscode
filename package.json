@@ -1,11 +1,15 @@
 {
   "name": "rza",
-  "displayName": "REZ3-ASM Language Support",
-  "description": "Syntax highlighting and diagnostics for REZ3-ASM (.rza) via the rez3asm transpiler",
-  "version": "0.4.0",
+  "displayName": "RZA Language Support",
+  "description": "Syntax highlighting and diagnostics for RZA (.rza) via rez3asm",
+  "version": "0.5.0",
   "publisher": "rez3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wtorso/rza-vscode.git"
+  },
   "engines": {
-    "vscode": "^1.75.0"
+    "vscode": "^1.82.0"
   },
   "categories": [
     "Programming Languages",
@@ -23,7 +27,7 @@
           ".rza"
         ],
         "aliases": [
-          "REZ3-ASM",
+          "RZA",
           "rza"
         ],
         "configuration": "./language-configuration.json"
@@ -37,17 +41,31 @@
       }
     ],
     "configuration": {
-      "title": "REZ3-ASM",
+      "title": "RZA",
       "properties": {
         "rez3.transpilerPath": {
           "type": "string",
           "default": "",
-          "description": "\u041f\u0443\u0442\u044c \u043a rez3asm (rez3asm.exe). \u041f\u0443\u0441\u0442\u043e = <extensionRoot>/../../rez3asm.exe"
+          "description": "Path to rez3asm.exe. Empty means <extensionRoot>/../../rez3asm.exe"
         }
       }
     }
   },
+  "scripts": {
+    "test": "node --test test/unit/*.test.js",
+    "test:integration": "node test/integration/runTests.js",
+    "test:package": "node --test test/package/*.test.js",
+    "package": "node -e \"require('fs').mkdirSync('build',{recursive:true})\" && vsce package --out build/rza-0.5.0.vsix"
+  },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.0",
+    "jszip": "^3.10.2",
+    "mocha": "^12.0.3",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
   }
 }

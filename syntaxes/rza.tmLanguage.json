@@ -1,15 +1,19 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "name": "REZ3-ASM",
+  "name": "RZA",
   "scopeName": "source.rza",
   "patterns": [
     { "include": "#comments" },
     { "include": "#labels" },
+    { "include": "#layoutDeclaration" },
+    { "include": "#layoutTypes" },
+    { "include": "#properties" },
     { "include": "#ownership" },
     { "include": "#alu" },
     { "include": "#flow" },
     { "include": "#registers" },
     { "include": "#mediators" },
+    { "include": "#scalarTypes" },
     { "include": "#field" },
     { "include": "#numbers" }
   ],
@@ -22,17 +26,43 @@
       "name": "entity.name.label.rza",
       "match": "^\\s*([a-z_][a-z0-9_]*):"
     },
+    "layoutDeclaration": {
+      "match": "\\b(layout)\\s+([A-Z][A-Za-z0-9_]*)\\b",
+      "captures": {
+        "1": { "name": "keyword.control.layout.rza" },
+        "2": { "name": "entity.name.type.layout.rza" }
+      }
+    },
+    "layoutTypes": {
+      "name": "entity.name.type.layout.rza",
+      "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+    },
+    "properties": {
+      "patterns": [
+        {
+          "match": "(\\.)([a-z_][a-z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "punctuation.accessor.rza" },
+            "2": { "name": "variable.other.property.rza" }
+          }
+        },
+        {
+          "name": "variable.other.property.rza",
+          "match": "\\b([a-z_][a-z0-9_]*)\\s*(?=:\\s*(u8|i64)\\b)"
+        }
+      ]
+    },
     "ownership": {
       "name": "keyword.control.ownership.rza",
-      "match": "\\b(cav|res|med|casc|acasc|endc|raise|decay|probe|load|loadb|store)\\b"
+      "match": "\\b(cav|res|med|casc|acasc|endc|raise|decay|probe|load|loadb|store|storeb)\\b"
     },
     "alu": {
       "name": "keyword.other.alu.rza",
-      "match": "\\b(mov|add|sub|mul|div|mod|and|or|xor|shl|shr|inc|dec|print)\\b"
+      "match": "\\b(mov|add|sub|mul|div|mod|and|or|xor|shl|shr|inc|dec|print|slt)\\b"
     },
     "flow": {
       "name": "keyword.control.flow.rza",
-      "match": "\\b(jmp|brz|brnz|call|ret|proc)\\b"
+      "match": "\\b(jmp|brz|brnz|call|ret|proc|await)\\b"
     },
     "registers": {
       "name": "variable.parameter.register.rza",
@@ -42,13 +72,17 @@
       "name": "variable.other.mediator.rza",
       "match": "\\b[a-z_][a-z0-9_]*_m\\b"
     },
+    "scalarTypes": {
+      "name": "support.type.primitive.rza",
+      "match": "\\b(u8|i64)\\b"
+    },
     "field": {
       "name": "constant.language.field.rza",
       "match": "\\bfield\\b"
     },
     "numbers": {
       "name": "constant.numeric.integer.rza",
-      "match": "(?<![\\w%])-?[0-9]+\\b"
+      "match": "(?<![\\w%])-?(0x[0-9a-fA-F]+|[0-9]+)\\b"
     }
   }
 }

@@ -1,0 +1,6 @@
+.vscode-test/
+build/
+docs/
+test/
+*.vsix
+*.log
