@@ -46,7 +46,7 @@
         "rez3.transpilerPath": {
           "type": "string",
           "default": "",
-          "description": "Path to rez3asm.exe. Empty means <extensionRoot>/../../rez3asm.exe"
+          "description": "Path to the RZA compiler. Empty uses the default source-checkout location"
         }
       }
     }
