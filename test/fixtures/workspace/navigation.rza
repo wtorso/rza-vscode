@@ -1,0 +1,9 @@
+layout Entry: key:i64, value:i64
+res entries, field, Entry[2]
+med entries_m, entries, field
+proc read_first:
+    load %r0, [entries_m + 0].value
+    ret
+call read_first
+print %r0
+ret

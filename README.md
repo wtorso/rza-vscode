@@ -3,8 +3,8 @@
 [Русская версия](README.ru.md)
 
 RZA is a low-level language with explicit memory lifetimes and checked memory
-access. This extension adds syntax highlighting and compiler diagnostics to
-`.rza` files in Visual Studio Code.
+access. This extension adds syntax highlighting, compiler diagnostics, and
+language navigation to `.rza` files in Visual Studio Code.
 
 The extension starts the same `rez3asm` compiler that you can use from the
 command line. It does not contain a second implementation of the language rules.
@@ -13,12 +13,14 @@ command line. It does not contain a second implementation of the language rules.
 
 - Highlighting for instructions, registers, layouts, fields, numbers and comments.
 - Diagnostics through the real `rez3asm --lsp` language server.
+- Hover for layouts, fields, frames, cells, mediators, and procedures.
+- Same-document go-to-definition with exact identifier ranges.
+- Context-aware completion for typed fields and visible declaration operands.
 - Support for typed layouts, including `layout`, `u8`, `i64` and `.field` access.
 - English and Russian documentation.
 
-The extension intentionally provides only highlighting and diagnostics. Hover,
-completion and go-to-definition are not included. The compiler is not bundled in
-the VSIX package.
+Navigation is limited to the current document. Labels and workspace-wide
+references are not included. The compiler is not bundled in the VSIX package.
 
 ## Requirements
 
