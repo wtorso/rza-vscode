@@ -3,10 +3,15 @@
 const fs = require("fs");
 const path = require("path");
 
-function resolveTranspilerPath(configured, extensionRoot) {
+function defaultCompilerPath(extensionRoot, platform = process.platform) {
+    const executable = platform === "win32" ? "rez3asm.exe" : "rez3asm";
+    return path.resolve(extensionRoot, "..", "..", executable);
+}
+
+function resolveTranspilerPath(configured, extensionRoot, platform = process.platform) {
     const trimmed = configured.trim();
     if (trimmed) return path.resolve(trimmed);
-    return path.resolve(extensionRoot, "..", "..", "rez3asm.exe");
+    return defaultCompilerPath(extensionRoot, platform);
 }
 
 function validateTranspilerPath(filePath) {
@@ -19,4 +24,4 @@ function validateTranspilerPath(filePath) {
     }
 }
 
-module.exports = { resolveTranspilerPath, validateTranspilerPath };
+module.exports = { defaultCompilerPath, resolveTranspilerPath, validateTranspilerPath };

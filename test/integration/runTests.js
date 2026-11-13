@@ -4,9 +4,10 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { runTests } = require("@vscode/test-electron");
+const { defaultCompilerPath } = require("../../compiler_path");
 
 const root = path.resolve(__dirname, "..", "..");
-const compiler = path.resolve(root, "..", "..", "rez3asm.exe");
+const compiler = defaultCompilerPath(root);
 const version = "1.146.0";
 
 function createWorkspace() {
