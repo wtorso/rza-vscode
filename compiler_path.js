@@ -5,7 +5,7 @@ const path = require("path");
 
 function defaultCompilerPath(extensionRoot, platform = process.platform) {
     const executable = platform === "win32" ? "rez3asm.exe" : "rez3asm";
-    return path.resolve(extensionRoot, "..", "..", executable);
+    return path.resolve(extensionRoot, "..", "..", "build", "bin", executable);
 }
 
 function resolveTranspilerPath(configured, extensionRoot, platform = process.platform) {

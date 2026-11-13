@@ -15,14 +15,14 @@ test("configured compiler path wins over the default", () => {
 
 test("non-Windows default compiler uses the native name", () => {
     const root = path.resolve("project", "editors", "vscode");
-    const expected = path.resolve(root, "..", "..", "rez3asm");
+    const expected = path.resolve(root, "..", "..", "build", "bin", "rez3asm");
     assert.equal(defaultCompilerPath(root, "linux"), expected);
     assert.equal(resolveTranspilerPath("", root, "linux"), expected);
 });
 
 test("Windows default compiler uses the executable suffix", () => {
     const root = path.resolve("project", "editors", "vscode");
-    const expected = path.resolve(root, "..", "..", "rez3asm.exe");
+    const expected = path.resolve(root, "..", "..", "build", "bin", "rez3asm.exe");
     assert.equal(defaultCompilerPath(root, "win32"), expected);
     assert.equal(resolveTranspilerPath("", root, "win32"), expected);
 });
