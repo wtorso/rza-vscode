@@ -25,6 +25,8 @@ test("current instruction keywords are recognized", async () => {
     assert.match(tokenScopes(shift, "ushr"), /keyword\.other\.alu\.rza/);
     const checked = await tokenize("cadd %r0, %r0, 1");
     assert.match(tokenScopes(checked, "cadd"), /keyword\.other\.alu\.rza/);
+    const crc = await tokenize("crc32c %r0, %r0, %r1");
+    assert.match(tokenScopes(crc, "crc32c"), /keyword\.other\.alu\.rza/);
 });
 
 test("array counts and hexadecimal integers are numeric tokens", async () => {

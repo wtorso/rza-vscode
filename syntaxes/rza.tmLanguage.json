@@ -64,7 +64,7 @@
         },
         {
           "name": "keyword.other.alu.rza",
-          "match": "\\b(inc|dec|cadd|csub|cmul|cinc|cdec|print|slt)\\b"
+          "match": "\\b(inc|dec|cadd|csub|cmul|cinc|cdec|crc32c|print|slt)\\b"
         }
       ]
     },
