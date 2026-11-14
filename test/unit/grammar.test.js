@@ -21,6 +21,10 @@ test("current instruction keywords are recognized", async () => {
     assert.match(tokenScopes(store, "value"), /variable\.other\.property\.rza/);
     const compare = await tokenize("slt %r0, %r1, %r2");
     assert.match(tokenScopes(compare, "slt"), /keyword\.other\.alu\.rza/);
+    const shift = await tokenize("ushr %r0, %r0, 1");
+    assert.match(tokenScopes(shift, "ushr"), /keyword\.other\.alu\.rza/);
+    const checked = await tokenize("cadd %r0, %r0, 1");
+    assert.match(tokenScopes(checked, "cadd"), /keyword\.other\.alu\.rza/);
 });
 
 test("array counts and hexadecimal integers are numeric tokens", async () => {
