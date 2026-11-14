@@ -150,4 +150,31 @@ describe("RZA extension", function () {
         assert.equal(procedures.items.some((item) => item.label === "missing"), false);
         await replaceDocument(document, valid);
     });
+
+    it("finds references and applies a checked rename", async () => {
+        const document = await vscode.workspace.openTextDocument(
+            path.join(workspace.fsPath, "navigation.rza"));
+        await vscode.window.showTextDocument(document);
+        const valid = document.getText();
+        const position = new vscode.Position(6, 6);
+        const references = await vscode.commands.executeCommand(
+            "vscode.executeReferenceProvider", document.uri, position, true);
+        assert.equal(references.length, 2);
+        assert.deepEqual(references.map((item) => item.range.start.line).sort(), [3, 6]);
+        assert.ok(references.every((item) => item.uri.toString() === document.uri.toString()));
+
+        const rename = await vscode.commands.executeCommand(
+            "vscode.executeDocumentRenameProvider", document.uri, position, "read_renamed");
+        assert.equal(await vscode.workspace.applyEdit(rename), true);
+        await waitForDiagnostics(document.uri, (items) => items.length === 0 &&
+            document.getText().includes("proc read_renamed:"));
+        assert.equal(document.getText().match(/read_renamed/g).length, 2);
+        assert.equal(document.getText().includes("read_first"), false);
+
+        const restore = await vscode.commands.executeCommand(
+            "vscode.executeDocumentRenameProvider", document.uri, position, "read_first");
+        assert.equal(await vscode.workspace.applyEdit(restore), true);
+        await waitForDiagnostics(document.uri, (items) => items.length === 0 &&
+            document.getText() === valid);
+    });
 });

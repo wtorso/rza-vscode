@@ -14,13 +14,18 @@ command line. It does not contain a second implementation of the language rules.
 - Highlighting for instructions, registers, layouts, fields, numbers and comments.
 - Diagnostics through the real `rez3asm --lsp` language server.
 - Hover for layouts, fields, frames, cells, mediators, and procedures.
-- Same-document go-to-definition with exact identifier ranges.
+- Same-document go-to-definition and references with exact identifier ranges.
+- Prepare rename and checked rename for layouts, fields, frames, cells, mediators,
+  and procedures. Edits carry the document version and are returned only when the
+  renamed program passes the compiler checker.
 - Context-aware completion for typed fields and visible declaration operands.
 - Support for typed layouts, including `layout`, `u8`, `i64` and `.field` access.
 - English and Russian documentation.
 
-Navigation is limited to the current document. Labels and workspace-wide
-references are not included. The compiler is not bundled in the VSIX package.
+Each `.rza` file is a self-contained program without cross-file references, so
+navigation and rename stay within the current document. Labels are not included.
+Rename requires a valid current document. The compiler is not bundled in the VSIX
+package.
 
 ## Requirements
 
