@@ -20,6 +20,7 @@ command line. It does not contain a second implementation of the language rules.
   renamed program passes the compiler checker.
 - Context-aware completion for typed fields and visible declaration operands.
 - Support for typed layouts, including `layout`, `u8`, `i64` and `.field` access.
+- Support for bounded mediator views with fixed or dynamic extents.
 - English and Russian documentation.
 
 Each `.rza` file is a self-contained program without cross-file references, so
@@ -45,14 +46,14 @@ Inside the extension directory:
 ```sh
 npm ci
 npm run package
-code --install-extension build/rza-0.5.0.vsix
+code --install-extension build/rza-0.6.0.vsix
 ```
 
 Restart VS Code after installation.
 
 ### From the source tree
 
-Copy or link this directory as `rza-0.5.0` in your VS Code extensions directory,
+Copy or link this directory as `rza-0.6.0` in your VS Code extensions directory,
 run `npm ci` there, and restart VS Code. A symlink also works during development.
 When the extension is installed outside the source checkout, configure the
 compiler path explicitly as described below.
@@ -85,7 +86,8 @@ mov %r0, 0
 mov %r1, 42
 store [entries_m + %r0].key, %r1
 store [entries_m + %r0].value, %r1
-load %r2, [entries_m + 0].value
+view entries_v_m, entries_m, 0, 1
+load %r2, [entries_v_m + 0].value
 print %r2
 ret
 ```
@@ -93,6 +95,10 @@ ret
 The index after a mediator is an element index, not a byte offset. The compiler
 computes the record size and field offsets. Invalid fields are shown as `STRUCT`
 diagnostics by the real language server.
+
+`view entries_v_m, entries_m, 0, 1` creates a zero-copy bounded view of one
+record. Raw-cell offsets and lengths are bytes; typed-cell offsets and lengths
+are elements. Views inherit lifetime and generation checks from their source.
 
 ## Develop and verify
 
@@ -109,7 +115,7 @@ npm run package
   against the real language server. On a headless Linux host, use
   `xvfb-run -a npm run test:integration`.
 - `npm run test:package` verifies the archive contents with a Node ZIP reader.
-- `npm run package` writes `build/rza-0.5.0.vsix` without committing it to git.
+- `npm run package` writes `build/rza-0.6.0.vsix` without committing it to git.
 
 Generated dependencies, VS Code downloads, logs and packages are ignored.
 

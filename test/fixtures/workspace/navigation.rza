@@ -6,4 +6,5 @@ proc read_first:
     ret
 call read_first
 print %r0
+view entries_v_m, entries_m, 0, 1
 ret

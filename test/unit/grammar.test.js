@@ -19,6 +19,8 @@ test("current instruction keywords are recognized", async () => {
     const store = await tokenize("storeb [entries_m + %r0].value, %r0");
     assert.match(tokenScopes(store, "storeb"), /keyword\.control\.ownership\.rza/);
     assert.match(tokenScopes(store, "value"), /variable\.other\.property\.rza/);
+    const view = await tokenize("view payload_m, input_m, %r0, %r1");
+    assert.match(tokenScopes(view, "view"), /keyword\.control\.ownership\.rza/);
     const compare = await tokenize("slt %r0, %r1, %r2");
     assert.match(tokenScopes(compare, "slt"), /keyword\.other\.alu\.rza/);
     const shift = await tokenize("ushr %r0, %r0, 1");

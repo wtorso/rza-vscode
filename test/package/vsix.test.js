@@ -12,7 +12,7 @@ const root = path.join(__dirname, "..", "..");
 test("VSIX contains production files and excludes development artifacts", async () => {
     const npm = process.platform === "win32" ? "npm.cmd" : "npm";
     execFileSync(npm, ["run", "package"], { cwd: root, stdio: "pipe" });
-    const archive = path.join(root, "build", "rza-0.5.0.vsix");
+    const archive = path.join(root, "build", "rza-0.6.0.vsix");
     const zip = await JSZip.loadAsync(fs.readFileSync(archive));
     const files = Object.keys(zip.files);
     for (const required of [

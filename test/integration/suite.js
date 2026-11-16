@@ -151,6 +151,30 @@ describe("RZA extension", function () {
         await replaceDocument(document, valid);
     });
 
+    it("navigates bounded views through the real language server", async () => {
+        const document = await vscode.workspace.openTextDocument(
+            path.join(workspace.fsPath, "navigation.rza"));
+        await vscode.window.showTextDocument(document);
+        const definition = await vscode.commands.executeCommand(
+            "vscode.executeDefinitionProvider", document.uri, new vscode.Position(8, 20));
+        assert.equal(definition.length, 1);
+        const range = definition[0].range || definition[0].targetRange;
+        assert.equal(range.start.line, 2);
+        assert.equal(range.start.character, 4);
+        assert.equal(range.end.character, 13);
+        const hover = await vscode.commands.executeCommand(
+            "vscode.executeHoverProvider", document.uri, new vscode.Position(8, 6));
+        const contents = Array.isArray(hover[0].contents) ?
+            hover[0].contents : [hover[0].contents];
+        const markdown = contents.map((item) =>
+            typeof item === "string" ? item : item.value).join("\n");
+        assert.match(markdown, /view entries_v_m/);
+        assert.match(markdown, /extent 1/);
+        const references = await vscode.commands.executeCommand(
+            "vscode.executeReferenceProvider", document.uri, new vscode.Position(8, 20), true);
+        assert.deepEqual(references.map((item) => item.range.start.line).sort(), [2, 4, 8]);
+    });
+
     it("finds references and applies a checked rename", async () => {
         const document = await vscode.workspace.openTextDocument(
             path.join(workspace.fsPath, "navigation.rza"));
