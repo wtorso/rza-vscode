@@ -39,30 +39,33 @@ test("array counts and hexadecimal integers are numeric tokens", async () => {
     assert.match(tokenScopes(hex, "-0xFF"), /constant\.numeric\.integer\.rza/);
 });
 
-test("active 8-bit typed instructions are complete tokens", async () => {
+test("active fixed-width typed instructions are complete tokens", async () => {
     const shared = [
         "mov", "load", "store", "add", "sub", "mul", "inc", "dec",
         "cadd", "csub", "cmul", "cinc", "cdec", "and", "or", "xor",
         "div", "mod", "shl", "ushr",
     ];
-    const typed = shared.flatMap((base) => [`${base}.i8`, `${base}.u8`]);
-    typed.push("shr.i8", "slt.i8", "ult.u8");
-    assert.equal(typed.length, 43);
+    const types = ["i8", "u8", "i16", "u16"];
+    const typed = shared.flatMap((base) => types.map((type) => `${base}.${type}`));
+    typed.push("shr.i8", "slt.i8", "ult.u8", "shr.i16", "slt.i16", "ult.u16");
+    assert.equal(typed.length, 86);
     for (const instruction of typed) {
         const tokens = await tokenize(instruction);
         assert.match(tokenScopes(tokens, instruction), /keyword\.other\.numeric\.rza/);
         assert.doesNotMatch(tokenScopes(tokens, instruction),
             /variable\.other\.property\.rza/);
     }
-    const layout = await tokenize("layout Pair: tag:u8, signed:i8");
-    assert.match(tokenScopes(layout, "i8"), /support\.type\.primitive\.rza/);
+    const layout = await tokenize("layout Pair: tag:u8, signed:i8, half:u16, word:i16");
+    assert.match(tokenScopes(layout, "u16"), /support\.type\.primitive\.rza/);
+    assert.match(tokenScopes(layout, "i16"), /support\.type\.primitive\.rza/);
 });
 
 test("inactive typed instruction pairs do not use numeric scopes", async () => {
     const inactive = [
-        "load.i64", "store.i64", "mov.i64", "add.i64", "load.u16",
-        "shr.u8", "slt.u8", "ult.i8", "ult", "loadb.u8", "crc32c.i8",
-        "print.u8", "cvt.i8", "add.f32",
+        "load.i64", "store.i64", "mov.i64", "add.i64", "load.u32",
+        "shr.u8", "slt.u8", "ult.i8", "shr.u16", "slt.u16", "ult.i16",
+        "ult", "loadb.u8", "loadb.u16", "crc32c.i16", "print.u16", "cvt.i16",
+        "add.f32",
     ];
     for (const instruction of inactive) {
         const tokens = await tokenize(instruction);

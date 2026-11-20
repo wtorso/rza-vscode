@@ -96,7 +96,7 @@ describe("RZA extension", function () {
         const markdown = contents.map((item) =>
             typeof item === "string" ? item : item.value).join("\n");
         assert.match(markdown, /Entry/);
-        assert.match(markdown, /16/);
+        assert.match(markdown, /24/);
         const layoutDefinition = await vscode.commands.executeCommand(
             "vscode.executeDefinitionProvider", document.uri, position);
         assert.equal(layoutDefinition.length, 1);

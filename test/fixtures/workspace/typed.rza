@@ -1,4 +1,4 @@
-layout Entry: key:i64, value:i64
+layout Entry: key:i64, value:i64, half:u16, signed:i16
 res entries, field, Entry[2]
 med entries_m, entries, field
 mov %r0, 0
@@ -9,6 +9,12 @@ load %r2, [entries_m + 0].value
 print %r2
 mov.i8 %r3, 0xff
 add.u8 %r4, %r0, 255
+mov.i16 %r5, 0x8000
+add.u16 %r6, %r0, 65535
+store.u16 [entries_m + 0].half, %r1
+store.i16 [entries_m + 0].signed, %r5
 print %r3
 print %r4
+print %r5
+print %r6
 ret

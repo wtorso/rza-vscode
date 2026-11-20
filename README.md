@@ -19,7 +19,8 @@ command line. It does not contain a second implementation of the language rules.
   and procedures. Edits carry the document version and are returned only when the
   renamed program passes the compiler checker.
 - Context-aware completion for typed fields and visible declaration operands.
-- Support for typed layouts, including `layout`, `u8`, `i64` and `.field` access.
+- Support for typed layouts, including `layout`, `u8`, `i8`, `u16`, `i16`, `i64`
+  and `.field` access.
 - Support for bounded mediator views with fixed or dynamic extents.
 - English and Russian documentation.
 
