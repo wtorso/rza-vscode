@@ -40,6 +40,10 @@
     "properties": {
       "patterns": [
         {
+          "name": "keyword.other.numeric.rza",
+          "match": "\\b(?:(?:mov|load|store|add|sub|mul|inc|dec|cadd|csub|cmul|cinc|cdec|and|or|xor|div|mod|shl|ushr)\\.(?:i8|u8)|(?:shr|slt)\\.i8|ult\\.u8)\\b"
+        },
+        {
           "match": "(\\.)([a-z_][a-z0-9_]*)\\b",
           "captures": {
             "1": { "name": "punctuation.accessor.rza" },
@@ -48,7 +52,7 @@
         },
         {
           "name": "variable.other.property.rza",
-          "match": "\\b([a-z_][a-z0-9_]*)\\s*(?=:\\s*(u8|i64)\\b)"
+          "match": "\\b([a-z_][a-z0-9_]*)\\s*(?=:\\s*(u8|i8|i64)\\b)"
         }
       ]
     },
@@ -82,7 +86,7 @@
     },
     "scalarTypes": {
       "name": "support.type.primitive.rza",
-      "match": "\\b(u8|i64)\\b"
+      "match": "\\b(u8|i8|i64)\\b"
     },
     "field": {
       "name": "constant.language.field.rza",

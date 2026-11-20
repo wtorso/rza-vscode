@@ -7,4 +7,8 @@ store [entries_m + %r0].key, %r1
 store [entries_m + %r0].value, %r1
 load %r2, [entries_m + 0].value
 print %r2
+mov.i8 %r3, 0xff
+add.u8 %r4, %r0, 255
+print %r3
+print %r4
 ret
