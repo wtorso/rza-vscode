@@ -45,27 +45,31 @@ test("active fixed-width typed instructions are complete tokens", async () => {
         "cadd", "csub", "cmul", "cinc", "cdec", "and", "or", "xor",
         "div", "mod", "shl", "ushr",
     ];
-    const types = ["i8", "u8", "i16", "u16"];
+    const types = ["i8", "u8", "i16", "u16", "i32", "u32"];
     const typed = shared.flatMap((base) => types.map((type) => `${base}.${type}`));
     typed.push("shr.i8", "slt.i8", "ult.u8", "shr.i16", "slt.i16", "ult.u16");
-    assert.equal(typed.length, 86);
+    typed.push("shr.i32", "slt.i32", "ult.u32");
+    assert.equal(typed.length, 129);
     for (const instruction of typed) {
         const tokens = await tokenize(instruction);
         assert.match(tokenScopes(tokens, instruction), /keyword\.other\.numeric\.rza/);
         assert.doesNotMatch(tokenScopes(tokens, instruction),
             /variable\.other\.property\.rza/);
     }
-    const layout = await tokenize("layout Pair: tag:u8, signed:i8, half:u16, word:i16");
+    const layout = await tokenize(
+        "layout Pair: tag:u8, signed:i8, half:u16, word:i16, dword:i32, tail:u32");
     assert.match(tokenScopes(layout, "u16"), /support\.type\.primitive\.rza/);
     assert.match(tokenScopes(layout, "i16"), /support\.type\.primitive\.rza/);
+    assert.match(tokenScopes(layout, "i32"), /support\.type\.primitive\.rza/);
+    assert.match(tokenScopes(layout, "u32"), /support\.type\.primitive\.rza/);
 });
 
 test("inactive typed instruction pairs do not use numeric scopes", async () => {
     const inactive = [
-        "load.i64", "store.i64", "mov.i64", "add.i64", "load.u32",
+        "load.i64", "store.i64", "mov.i64", "add.i64", "load.u64",
         "shr.u8", "slt.u8", "ult.i8", "shr.u16", "slt.u16", "ult.i16",
-        "ult", "loadb.u8", "loadb.u16", "crc32c.i16", "print.u16", "cvt.i16",
-        "add.f32",
+        "shr.u32", "slt.u32", "ult.i32", "ult", "loadb.u8", "loadb.u16",
+        "loadb.u32", "crc32c.i32", "print.i32", "cvt.i32", "add.f32",
     ];
     for (const instruction of inactive) {
         const tokens = await tokenize(instruction);
